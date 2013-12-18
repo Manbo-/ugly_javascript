@@ -16,6 +16,8 @@ And then execute:
 
 ### View
 
+#### erb
+
     <%= ugly_javascript do %>
       $(function(){
         var neko = "nya";
@@ -23,16 +25,25 @@ And then execute:
       });
     <% end %>
 
-<script>
+#### haml
+    = ugly_javascript do
+      :plain
+        $(function(){
+          var neko = "nya";
+          console.log(neko);
+        });
+        
+
+\<script>
 //<![CDATA[
 $(function(){var n="nya";console.log(n)});
 //]]>
-</script>
+\</script>
 
 ### Controller
 
     class ExamplesController < ApplicationController
-      ugly_javascript :only => :javascript
+      ugly_javascript
     
       def javascript
         code = <<-EOF
@@ -41,7 +52,7 @@ $(function(){var n="nya";console.log(n)});
             console.log(neko);
           });
         EOF
-	respond_to do |format|
+        respond_to do |format|
           format.js{ render inline: code }
         end
       end
